@@ -1,0 +1,190 @@
+.operator-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  clip-path: polygon(12px 0%, 100% 0%, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0% 100%, 0% 12px);
+  overflow: hidden;
+  transition: transform var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
+  position: relative;
+  cursor: pointer;
+}
+
+.operator-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-border-bright);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), var(--glow-gold);
+}
+
+.operator-card--featured {
+  border-color: rgba(232, 212, 139, 0.5);
+}
+
+.operator-card__featured-badge {
+  position: absolute;
+  top: 8px;
+  right: -8px;
+  font-family: var(--font-display);
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--color-bg-primary);
+  background: var(--color-accent-gold);
+  padding: 0.2rem 0.9rem 0.2rem 0.5rem;
+  z-index: 10;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 8px 50%);
+}
+
+/* Art container – must have overflow hidden to clip the image */
+.operator-card__art {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+  background: linear-gradient(160deg, #0d0d1a 0%, #1a1a2e 100%);
+}
+
+/* Real portrait image */
+.operator-card__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 0.4s ease;
+  display: block;
+}
+
+.operator-card:hover .operator-card__img {
+  transform: scale(1.06);
+}
+
+/* Fallback silhouette when image fails */
+.operator-card__art-fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(5,5,10,0.9), rgba(20,20,36,0.9));
+}
+
+.operator-card__silhouette {
+  width: 70px;
+  opacity: 0.8;
+}
+
+/* Gradient that sits on top of the image – fades into card bg at bottom */
+.operator-card__art-gradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  background: linear-gradient(to top, var(--color-bg-card) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Class badge sits above the gradient */
+.operator-card__class-badge {
+  position: absolute;
+  bottom: 8px;
+  left: 10px;
+  font-family: var(--font-display);
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-bg-primary);
+  padding: 0.2rem 0.5rem;
+  z-index: 3;
+  clip-path: polygon(5px 0%, 100% 0%, calc(100% - 5px) 100%, 0% 100%);
+}
+
+/* Info section */
+.operator-card__info {
+  padding: 0.875rem;
+}
+
+.operator-card__rarity {
+  font-size: 0.65rem;
+  color: #ffa726;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.3rem;
+}
+
+.operator-card__name {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.15rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.operator-card__title {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.3rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.operator-card__faction {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: rgba(79, 195, 247, 0.8);
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.operator-card__tags {
+  display: flex;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.operator-card__tag {
+  font-family: var(--font-display);
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+  padding: 0.15rem 0.4rem;
+}
+
+.operator-card__stats {
+  display: flex;
+  gap: 1rem;
+  border-top: 1px solid var(--color-border);
+  padding-top: 0.6rem;
+}
+
+.operator-card__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.operator-card__stat-label {
+  font-family: var(--font-display);
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-text-secondary);
+}
+
+.operator-card__stat-val {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--color-accent-gold);
+}

@@ -1,0 +1,191 @@
+/* ===== CSS VARIABLES & RESET ===== */
+:root {
+  --color-bg-primary: #05050a;
+  --color-bg-secondary: #0c0c14;
+  --color-bg-card: #111120;
+  --color-accent-gold: #e8d48b;
+  --color-accent-blue: #4fc3f7;
+  --color-accent-red: #ef5350;
+  --color-text-primary: #f0ede0;
+  --color-text-secondary: #9e9e9e;
+  --color-border: rgba(232, 212, 139, 0.25);
+  --color-border-bright: rgba(232, 212, 139, 0.7);
+  --font-display: 'Orbitron', monospace;
+  --font-body: 'Rajdhani', sans-serif;
+  --font-mono: 'Share Tech Mono', monospace;
+  --header-height: 72px;
+  --max-width: 1280px;
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.3s ease;
+  --glow-gold: 0 0 20px rgba(232, 212, 139, 0.4);
+  --glow-blue: 0 0 20px rgba(79, 195, 247, 0.4);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-accent-gold);
+  border-radius: 3px;
+}
+
+/* ===== UTILITY CLASSES ===== */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700;
+  color: var(--color-accent-gold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.section-title::before {
+  content: '';
+  display: block;
+  width: 4px;
+  height: 1.5em;
+  background: var(--color-accent-gold);
+  box-shadow: var(--glow-gold);
+}
+
+.btn-primary {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-bg-primary);
+  background: var(--color-accent-gold);
+  padding: 0.75rem 2rem;
+  border: 2px solid var(--color-accent-gold);
+  clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+  transition: var(--transition-base);
+  display: inline-block;
+}
+
+.btn-primary:hover {
+  background: transparent;
+  color: var(--color-accent-gold);
+  box-shadow: var(--glow-gold);
+}
+
+.btn-secondary {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-accent-gold);
+  background: transparent;
+  padding: 0.75rem 2rem;
+  border: 1px solid var(--color-border-bright);
+  clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+  transition: var(--transition-base);
+  display: inline-block;
+}
+
+.btn-secondary:hover {
+  background: rgba(232, 212, 139, 0.1);
+  box-shadow: var(--glow-gold);
+}
+
+/* ===== PAGE LAYOUT ===== */
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-content {
+  flex: 1;
+  padding-top: var(--header-height);
+}
+
+/* ===== DECORATIVE LINES ===== */
+.deco-line {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-accent-gold), transparent);
+  opacity: 0.4;
+  margin: 3rem 0;
+}
+
+/* ===== FADE IN ANIMATION ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(232, 212, 139, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(232, 212, 139, 0.7); }
+}
+
+.fade-in {
+  animation: fadeInUp 0.6s ease forwards;
+}
