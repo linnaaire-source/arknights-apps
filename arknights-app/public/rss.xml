@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Arknights Global — News Feed</title>
+    <link>https://arknights-8d51f.web.app</link>
+    <description>Latest news, events and updates from Rhodes Island — Arknights Global</description>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 16 Mar 2026 00:00:00 GMT</lastBuildDate>
+    <atom:link href="https://arknights-8d51f.web.app/rss.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+      <title>Contingency Contract: Shadow over Leithania — New Season Live</title>
+      <link>https://arknights-8d51f.web.app/news?id=1</link>
+      <description>The new Contingency Contract season is now available globally. Deploy your best operators and climb the risk ladder for exclusive rewards.</description>
+      <pubDate>Sat, 14 Mar 2026 10:00:00 GMT</pubDate>
+      <guid>https://arknights-8d51f.web.app/news?id=1</guid>
+      <category>Event</category>
+    </item>
+
+    <item>
+      <title>New Limited Banner — 6★ Operator Now Available</title>
+      <link>https://arknights-8d51f.web.app/news?id=2</link>
+      <description>A new limited recruitment banner has arrived. Don't miss your chance to recruit this powerful 6-star operator before the banner ends.</description>
+      <pubDate>Sun, 08 Mar 2026 10:00:00 GMT</pubDate>
+      <guid>https://arknights-8d51f.web.app/news?id=2</guid>
+      <category>Recruitment</category>
+    </item>
+
+    <item>
+      <title>Chapter 14: Shadows of Kazdel — Part II Now Available</title>
+      <link>https://arknights-8d51f.web.app/news?id=3</link>
+      <description>The continuation of the Kazdel storyline is here. Uncover the truth behind the Sarkaz civil war in this brand new story chapter.</description>
+      <pubDate>Sun, 01 Mar 2026 10:00:00 GMT</pubDate>
+      <guid>https://arknights-8d51f.web.app/news?id=3</guid>
+      <category>Story</category>
+    </item>
+
+    <item>
+      <title>Maintenance Notice — March 20th Update</title>
+      <link>https://arknights-8d51f.web.app/news?id=4</link>
+      <description>Scheduled maintenance on March 20th from 10:00 to 14:00 UTC. New content and balance adjustments will be applied during this window.</description>
+      <pubDate>Fri, 18 Mar 2026 08:00:00 GMT</pubDate>
+      <guid>https://arknights-8d51f.web.app/news?id=4</guid>
+      <category>Maintenance</category>
+    </item>
+
+    <item>
+      <title>Operator Skin Sale — Limited Time Discount</title>
+      <link>https://arknights-8d51f.web.app/news?id=5</link>
+      <description>Selected operator skins are on sale for a limited time. Check the in-game store for discounted costumes for Exusiai, SilverAsh, and more.</description>
+      <pubDate>Mon, 10 Mar 2026 10:00:00 GMT</pubDate>
+      <guid>https://arknights-8d51f.web.app/news?id=5</guid>
+      <category>Store</category>
+    </item>
+
+    <item>
+      <title>Annihilation Map Rotation — Week of March 16</title>
+      <link>https://arknights-8d51f.web.app/news?id=6</link>
+      <description>This week's Annihilation rotation features the Chernobog map. Prepare your squad accordingly and collect your weekly orundum rewards.</description>
+      <pubDate>Mon, 16 Mar 2026 00:00:00 GMT</pubDate>
+      <guid>https://arknights-8d51f.web.app/news?id=6</guid>
+      <category>Weekly</category>
+    </item>
+
+  </channel>
+</rss>

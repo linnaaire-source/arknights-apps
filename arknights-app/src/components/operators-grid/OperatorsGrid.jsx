@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import useOperators from '../../hooks/useOperators'
+import { useOperators } from "../../hooks/useOperators";
 import OperatorCard from '../operator-card/OperatorCard'
 import './OperatorsGrid.css'
 

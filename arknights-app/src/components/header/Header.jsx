@@ -27,6 +27,8 @@ function Header() {
             <text x="30" y="35" fontFamily="Orbitron" fontSize="13" fontWeight="900" fill="#e8d48b" textAnchor="middle">ARK</text>
           </svg>
           <span className="header__logo-text">ARKNIGHTS</span>
+          <Link to="/rss">RSS</Link>
+          <Link to="/manage">Gestión</Link>
         </Link>
 
         {/* Desktop nav */}
