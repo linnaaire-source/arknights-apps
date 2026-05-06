@@ -1,7 +1,16 @@
 // src/hooks/useOperators.js
-import { useState, useEffect } from "react";
+// Ahora delega TODO el acceso a datos en firebaseService.js
 
-const CLASSES = ["Guard", "Caster", "Medic", "Sniper", "Vanguard", "Supporter", "Defender", "Specialist"];
+import { useState, useEffect } from "react";
+import {
+  getOperadores,
+  addOperador,
+  updateOperador,
+  deleteOperador,
+  resetOperadores,
+} from "../services/firebaseService";
+
+export const CLASSES = ["Guard", "Caster", "Medic", "Sniper", "Vanguard", "Supporter", "Defender", "Specialist"];
 
 const INITIAL_OPERATORS = [
   { id: "char_1012_skadi2", name: "Skadi the Corrupting Heart", shortName: "Skadi",      class: "Supporter", rarity: 6, imageKey: "char_1012_skadi2", fallbackColor: "#1a2a4a", glowColor: "#3a7acd" },
@@ -14,7 +23,7 @@ const INITIAL_OPERATORS = [
   { id: "char_293_thorns",  name: "Thorns",                     shortName: "Thorns",     class: "Guard",     rarity: 6, imageKey: "char_293_thorns",  fallbackColor: "#102a10", glowColor: "#50cd30" },
 ];
 
-export { CLASSES };
+export { INITIAL_OPERATORS };
 
 export function getOperatorImageUrl(imageKey) {
   return `https://raw.githubusercontent.com/Aceship/Arknight-Images/main/characters/${imageKey}_1.png`;
@@ -23,19 +32,26 @@ export function getOperatorAvatarUrl(imageKey) {
   return `https://raw.githubusercontent.com/Aceship/Arknight-Images/main/avatars/${imageKey}.png`;
 }
 
-// Hook de solo lectura para el grid de la home
+// ── Hook de solo lectura para home/OperatorsSection ──────────────────────────
+// Enriquece los datos de Firebase con stats de la API externa
 export function useOperators() {
   const [operators, setOperators] = useState([]);
   const [loading, setLoading]     = useState(true);
   const [error, setError]         = useState(null);
 
   useEffect(() => {
-    async function fetchStats() {
+    async function fetchAll() {
       try {
+        // 1. Carga desde Firebase a través del servicio
+        const fromFirebase = await getOperadores();
+        const base = fromFirebase.length > 0 ? fromFirebase : INITIAL_OPERATORS;
+
+        // 2. Enriquece con la API de stats
         const results = await Promise.allSettled(
-          INITIAL_OPERATORS.map(async (op) => {
+          base.map(async (op) => {
+            if (!op.imageKey) return { ...op, atk: "—", def: "—", hp: "—", imageUrl: null, avatarUrl: null };
             const res = await fetch(
-              `https://awedtan.ca/api/operator/${op.id}?include=data.name,data.phases,data.rarity`,
+              `https://awedtan.ca/api/operator/${op.imageKey}?include=data.name,data.phases,data.rarity`,
               { signal: AbortSignal.timeout(5000) }
             );
             if (!res.ok) throw new Error("API error");
@@ -44,101 +60,115 @@ export function useOperators() {
             const keyFrame = phase?.attributesKeyFrames?.slice(-1)[0]?.data;
             return {
               ...op,
-              atk: keyFrame?.atk    ?? "—",
-              def: keyFrame?.def    ?? "—",
-              hp:  keyFrame?.maxHp  ?? "—",
+              atk: keyFrame?.atk   ?? "—",
+              def: keyFrame?.def   ?? "—",
+              hp:  keyFrame?.maxHp ?? "—",
               imageUrl:  getOperatorImageUrl(op.imageKey),
               avatarUrl: getOperatorAvatarUrl(op.imageKey),
             };
           })
         );
-        const merged = INITIAL_OPERATORS.map((op, i) =>
+
+        const merged = base.map((op, i) =>
           results[i].status === "fulfilled"
             ? results[i].value
-            : { ...op, atk: "—", def: "—", hp: "—", imageUrl: getOperatorImageUrl(op.imageKey), avatarUrl: getOperatorAvatarUrl(op.imageKey) }
+            : {
+                ...op, atk: "—", def: "—", hp: "—",
+                imageUrl:  op.imageKey ? getOperatorImageUrl(op.imageKey)  : null,
+                avatarUrl: op.imageKey ? getOperatorAvatarUrl(op.imageKey) : null,
+              }
         );
         setOperators(merged);
       } catch (err) {
         setError(err.message);
-        setOperators(INITIAL_OPERATORS.map((op) => ({
-          ...op, atk: "—", def: "—", hp: "—",
-          imageUrl: getOperatorImageUrl(op.imageKey), avatarUrl: getOperatorAvatarUrl(op.imageKey),
-        })));
+        setOperators(
+          INITIAL_OPERATORS.map((op) => ({
+            ...op, atk: "—", def: "—", hp: "—",
+            imageUrl:  getOperatorImageUrl(op.imageKey),
+            avatarUrl: getOperatorAvatarUrl(op.imageKey),
+          }))
+        );
       } finally {
         setLoading(false);
       }
     }
-    fetchStats();
+    fetchAll();
   }, []);
 
   return { operators, loading, error };
 }
 
-// Hook CRUD para la página de gestión
+// ── Hook CRUD para Manage.jsx ────────────────────────────────────────────────
+// Ya NO usa localStorage. Usa Firebase a través de firebaseService.
 export function useOperatorsCrud() {
-  const [operators, setOperators] = useState(() => {
-    try {
-      const saved = localStorage.getItem("arknights-operators");
-      return saved ? JSON.parse(saved) : INITIAL_OPERATORS;
-    } catch {
-      return INITIAL_OPERATORS;
-    }
-  });
+  const [operators, setOperators] = useState([]);
+  const [loading, setLoading]     = useState(true);
 
+  // Carga inicial desde Firebase
   useEffect(() => {
-    localStorage.setItem("arknights-operators", JSON.stringify(operators));
-  }, [operators]);
+    getOperadores()
+      .then((data) => {
+        if (data.length === 0) {
+          // Si Firebase está vacío, pre-cargamos los datos iniciales
+          Promise.all(
+            INITIAL_OPERATORS.map((op) => addOperador(op))
+          ).then(() => getOperadores().then(setOperators));
+        } else {
+          setOperators(data);
+        }
+      })
+      .catch(() => setOperators(INITIAL_OPERATORS))
+      .finally(() => setLoading(false));
+  }, []);
 
   function filterOperators(search, classFilter) {
     return operators.filter((op) => {
       const matchesSearch =
         search === "" ||
-        op.shortName.toLowerCase().includes(search.toLowerCase()) ||
-        op.name.toLowerCase().includes(search.toLowerCase()) ||
-        op.class.toLowerCase().includes(search.toLowerCase());
+        (op.shortName || "").toLowerCase().includes(search.toLowerCase()) ||
+        (op.name      || "").toLowerCase().includes(search.toLowerCase()) ||
+        (op.class     || "").toLowerCase().includes(search.toLowerCase());
       const matchesClass = classFilter === "Todos" || op.class === classFilter;
       return matchesSearch && matchesClass;
     });
   }
 
-  function addOperator(newOp) {
-    const id = `char_custom_${Date.now()}`;
+  async function addOperatorCrud(newOp) {
     const operator = {
       ...newOp,
-      id,
-      imageKey:     newOp.imageKey || "",
+      imageKey:      newOp.imageKey || "",
       fallbackColor: "#1a1a2a",
       glowColor:     "#5ad4f5",
-      imageUrl:  newOp.imageKey ? getOperatorImageUrl(newOp.imageKey)  : null,
-      avatarUrl: newOp.imageKey ? getOperatorAvatarUrl(newOp.imageKey) : null,
     };
-    setOperators((prev) => [...prev, operator]);
-    return operator;
+    const newId = await addOperador(operator);
+    setOperators((prev) => [...prev, { ...operator, id: newId }]);
   }
 
-  function updateOperator(id, updatedFields) {
+  async function updateOperatorCrud(id, updatedFields) {
+    await updateOperador(id, updatedFields);
     setOperators((prev) =>
-      prev.map((op) =>
-        op.id === id
-          ? {
-              ...op,
-              ...updatedFields,
-              imageUrl:  updatedFields.imageKey ? getOperatorImageUrl(updatedFields.imageKey)  : op.imageUrl,
-              avatarUrl: updatedFields.imageKey ? getOperatorAvatarUrl(updatedFields.imageKey) : op.avatarUrl,
-            }
-          : op
-      )
+      prev.map((op) => (op.id === id ? { ...op, ...updatedFields } : op))
     );
   }
 
-  function deleteOperator(id) {
+  async function deleteOperatorCrud(id) {
+    await deleteOperador(id);
     setOperators((prev) => prev.filter((op) => op.id !== id));
   }
 
-  function resetOperators() {
-    setOperators(INITIAL_OPERATORS);
-    localStorage.removeItem("arknights-operators");
+  async function resetOperatorsCrud() {
+    await resetOperadores(INITIAL_OPERATORS);
+    const fresh = await getOperadores();
+    setOperators(fresh);
   }
 
-  return { operators, filterOperators, addOperator, updateOperator, deleteOperator, resetOperators };
+  return {
+    operators,
+    loading,
+    filterOperators,
+    addOperator:    addOperatorCrud,
+    updateOperator: updateOperatorCrud,
+    deleteOperator: deleteOperatorCrud,
+    resetOperators: resetOperatorsCrud,
+  };
 }

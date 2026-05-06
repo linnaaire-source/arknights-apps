@@ -14,7 +14,7 @@ function Header() {
   }, [])
 
   const toggleMenu = () => setIsMenuOpen(prev => !prev)
-  const closeMenu = () => setIsMenuOpen(false)
+  const closeMenu  = () => setIsMenuOpen(false)
 
   return (
     <header className={`header ${isScrolled ? 'header--scrolled' : ''}`}>
@@ -27,8 +27,6 @@ function Header() {
             <text x="30" y="35" fontFamily="Orbitron" fontSize="13" fontWeight="900" fill="#e8d48b" textAnchor="middle">ARK</text>
           </svg>
           <span className="header__logo-text">ARKNIGHTS</span>
-          <Link to="/rss">RSS</Link>
-          <Link to="/manage">Gestión</Link>
         </Link>
 
         {/* Desktop nav */}
@@ -44,6 +42,12 @@ function Header() {
           </NavLink>
           <NavLink to="/contact" className={({ isActive }) => `header__nav-link ${isActive ? 'header__nav-link--active' : ''}`} onClick={closeMenu}>
             Contact
+          </NavLink>
+          <NavLink to="/manage" className={({ isActive }) => `header__nav-link ${isActive ? 'header__nav-link--active' : ''}`} onClick={closeMenu}>
+            Gestión
+          </NavLink>
+          <NavLink to="/import-export" className={({ isActive }) => `header__nav-link ${isActive ? 'header__nav-link--active' : ''}`} onClick={closeMenu}>
+            Import/Export
           </NavLink>
           <a href="https://arknights.global/" target="_blank" rel="noopener noreferrer" className="header__nav-link header__nav-link--cta">
             Play Now
@@ -63,10 +67,12 @@ function Header() {
 
       {/* Mobile menu */}
       <nav className={`header__mobile-nav ${isMenuOpen ? 'header__mobile-nav--open' : ''}`} aria-label="Mobile navigation">
-        <NavLink to="/home" className="header__mobile-link" onClick={closeMenu}>Home</NavLink>
-        <NavLink to="/operators" className="header__mobile-link" onClick={closeMenu}>Operators</NavLink>
-        <NavLink to="/news" className="header__mobile-link" onClick={closeMenu}>News & RSS</NavLink>
-        <NavLink to="/contact" className="header__mobile-link" onClick={closeMenu}>Contact</NavLink>
+        <NavLink to="/home"          className="header__mobile-link" onClick={closeMenu}>Home</NavLink>
+        <NavLink to="/operators"     className="header__mobile-link" onClick={closeMenu}>Operators</NavLink>
+        <NavLink to="/news"          className="header__mobile-link" onClick={closeMenu}>News & RSS</NavLink>
+        <NavLink to="/contact"       className="header__mobile-link" onClick={closeMenu}>Contact</NavLink>
+        <NavLink to="/manage"        className="header__mobile-link" onClick={closeMenu}>Gestión</NavLink>
+        <NavLink to="/import-export" className="header__mobile-link" onClick={closeMenu}>Import/Export</NavLink>
         <a href="https://arknights.global/" target="_blank" rel="noopener noreferrer" className="header__mobile-link header__mobile-link--cta" onClick={closeMenu}>Play Now</a>
       </nav>
     </header>

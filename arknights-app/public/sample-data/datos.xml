@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<operadores>
+  <operador>
+    <name>Skadi the Corrupting Heart</name>
+    <shortName>Skadi</shortName>
+    <class>Supporter</class>
+    <rarity>6</rarity>
+    <imageKey>char_1012_skadi2</imageKey>
+  </operador>
+  <operador>
+    <name>Eyjafjalla</name>
+    <shortName>Eyjafjalla</shortName>
+    <class>Caster</class>
+    <rarity>6</rarity>
+    <imageKey>char_113_quartz</imageKey>
+  </operador>
+  <operador>
+    <name>Kal'tsit</name>
+    <shortName>Kal'tsit</shortName>
+    <class>Medic</class>
+    <rarity>6</rarity>
+    <imageKey>char_003_kalts</imageKey>
+  </operador>
+  <operador>
+    <name>Exusiai</name>
+    <shortName>Exusiai</shortName>
+    <class>Sniper</class>
+    <rarity>6</rarity>
+    <imageKey>char_101_sora</imageKey>
+  </operador>
+  <operador>
+    <name>SilverAsh</name>
+    <shortName>SilverAsh</shortName>
+    <class>Guard</class>
+    <rarity>6</rarity>
+    <imageKey>char_102_texas</imageKey>
+  </operador>
+</operadores>

@@ -1,0 +1,7 @@
+[
+  { "name": "Skadi the Corrupting Heart", "shortName": "Skadi",      "class": "Supporter", "rarity": 6, "imageKey": "char_1012_skadi2" },
+  { "name": "Eyjafjalla",                 "shortName": "Eyjafjalla", "class": "Caster",    "rarity": 6, "imageKey": "char_113_quartz"  },
+  { "name": "Kal'tsit",                   "shortName": "Kal'tsit",   "class": "Medic",     "rarity": 6, "imageKey": "char_003_kalts"   },
+  { "name": "Exusiai",                    "shortName": "Exusiai",    "class": "Sniper",    "rarity": 6, "imageKey": "char_101_sora"    },
+  { "name": "SilverAsh",                  "shortName": "SilverAsh",  "class": "Guard",     "rarity": 6, "imageKey": "char_102_texas"   }
+]

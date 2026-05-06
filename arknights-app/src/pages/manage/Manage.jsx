@@ -1,4 +1,7 @@
 // src/pages/manage/Manage.jsx
+// El componente ahora usa useOperatorsCrud que internamente llama a firebaseService.
+// No hay ninguna referencia directa a Firebase aquí.
+
 import { useState } from "react";
 import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
@@ -8,7 +11,15 @@ import "./Manage.css";
 const EMPTY_FORM = { shortName: "", name: "", class: "Guard", rarity: 6, imageKey: "" };
 
 export default function Manage() {
-  const { operators, filterOperators, addOperator, updateOperator, deleteOperator, resetOperators } = useOperatorsCrud();
+  const {
+    operators,
+    loading,
+    filterOperators,
+    addOperator,
+    updateOperator,
+    deleteOperator,
+    resetOperators,
+  } = useOperatorsCrud();
 
   const [search, setSearch]           = useState("");
   const [classFilter, setClassFilter] = useState("Todos");
@@ -37,25 +48,39 @@ export default function Manage() {
     setIsFormOpen(true);
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     if (editingId) {
-      updateOperator(editingId, form);
+      await updateOperator(editingId, form);
     } else {
-      addOperator(form);
+      await addOperator(form);
     }
     setIsFormOpen(false);
     setEditingId(null);
     setForm(EMPTY_FORM);
   }
 
-  function handleDelete(id) {
-    deleteOperator(id);
+  async function handleDelete(id) {
+    await deleteOperator(id);
     setDeleteConfirmId(null);
   }
 
   function handleFormChange(field, value) {
     setForm((prev) => ({ ...prev, [field]: value }));
+  }
+
+  if (loading) {
+    return (
+      <div className="manage-page">
+        <Header />
+        <main className="manage-main">
+          <p style={{ color: "#5ad4f5", textAlign: "center", padding: "4rem" }}>
+            Cargando operadores desde Firebase...
+          </p>
+        </main>
+        <Footer />
+      </div>
+    );
   }
 
   return (
@@ -70,7 +95,7 @@ export default function Manage() {
           <div className="manage-divider" />
         </div>
 
-        {/* Toolbar: búsqueda + filtros + botón añadir */}
+        {/* Toolbar */}
         <div className="manage-toolbar">
           <input
             className="manage-search"
@@ -179,7 +204,7 @@ export default function Manage() {
         </div>
       </main>
 
-      {/* Modal de formulario (añadir / editar) */}
+      {/* Modal formulario */}
       {isFormOpen && (
         <div className="manage-modal-backdrop" onClick={() => setIsFormOpen(false)}>
           <div className="manage-modal" onClick={(e) => e.stopPropagation()}>
@@ -251,7 +276,6 @@ export default function Manage() {
                 </span>
               </label>
 
-              {/* Preview de imagen si hay imageKey */}
               {form.imageKey && (
                 <div className="manage-preview">
                   <img
