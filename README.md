@@ -25,3 +25,11 @@ This project is a multi-page fan site for the mobile strategy RPG Arknights, dev
 | Aceship Arknight-Images | Public GitHub CDN used for operator portrait images | https://github.com/Aceship/Arknight-Images |
 | Google Fonts — Orbitron and Rajdhani | Display and body typefaces | https://fonts.google.com |
 
+
+## Sample Import Files
+
+Download these example files to test the import feature:
+
+- [datos.json](./sample-data/datos.json)
+- [datos.csv](./sample-data/datos.csv)
+- [datos.xml](./sample-data/datos.xml) 
