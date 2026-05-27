@@ -26,10 +26,9 @@ This project is a multi-page fan site for the mobile strategy RPG Arknights, dev
 | Google Fonts — Orbitron and Rajdhani | Display and body typefaces | https://fonts.google.com |
 
 
+
 ## Sample Import Files
 
-Download these example files to test the import feature:
-
-- [datos.json](./sample-data/datos.json)
-- [datos.csv](./sample-data/datos.csv)
-- [datos.xml](./sample-data/datos.xml) 
+- [datos.json](https://raw.githubusercontent.com/linnaaire-source/arknights-apps/main/arknights-app/public/sample-data/datos.json)
+- [datos.csv](https://raw.githubusercontent.com/linnaaire-source/arknights-apps/main/arknights-app/public/sample-data/datos.csv)
+- [datos.xml](https://raw.githubusercontent.com/linnaaire-source/arknights-apps/main/arknights-app/public/sample-data/datos.xml)
